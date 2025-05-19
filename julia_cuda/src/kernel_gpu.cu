@@ -32,7 +32,7 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
 void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
 
     // compute a good default block size
-
+    printf("global_block_x: %d, global_block_y: %d\n", global_block_x, global_block_y);
     dim3 blockShape = dim3(4, 8);
     dim3 gridShape = dim3( (res_x+blockShape.x-1)/blockShape.x,
                             (res_y+blockShape.y-1)/blockShape.y);
