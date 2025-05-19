@@ -37,8 +37,7 @@ for block_size in tqdm(block_sizes):
             'scale': scale,
             'global_block_x': global_block_x,
             'global_block_y': global_block_y,
-            'runtime': float(runtime_str),
-            "size"
+            'runtime': float(runtime_str)
             })
             runtimes.append(float(runtime_str))
             
