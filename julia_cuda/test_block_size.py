@@ -67,7 +67,7 @@ fig = plt.figure()
 ax = fig.add_subplot(111, projection='3d')
 ax.scatter(df_grouped.index.get_level_values('global_block_x'), 
            df_grouped.index.get_level_values('global_block_y'), 
-           df_grouped['mean_runtime']
+           df_grouped['mean_runtime'],
            c=df_grouped['mean_runtime'], cmap='viridis', marker='o')
 ax.set_xlabel('Global Block X')
 ax.set_ylabel('Global Block Y')
