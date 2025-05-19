@@ -2,7 +2,7 @@
 #include <iostream>
 #include "kernel.hpp"
 
-//extern int global_block_x, global_block_y;
+extern int global_block_x, global_block_y;
 
 
 __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
