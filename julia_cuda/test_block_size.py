@@ -19,8 +19,8 @@ problem_sizes = [1500]
 block_sizes_candidates = []
 # Iterate through potential block dimensions for X and Y
 # Let's assume blockDim.z is 1 for 2D blocks
-for i in range(1, 33): # block_size_x, e.g., 1 to 32 (max 1024/1)
-    for j in range(1, 33): # block_size_y, e.g., 1 to 32 (max 1024/1)
+for i in range(1, 1024): # block_size_x, e.g., 1 to 32 (max 1024/1)
+    for j in range(1, 1024): # block_size_y, e.g., 1 to 32 (max 1024/1)
         if (i * j) <= 1024 and (i * j) % 32 == 0 and i * j > 0: # Total threads constraint and warp multiple
              block_sizes_candidates.append((i, j))
 
@@ -34,7 +34,7 @@ for i in range(1, 33): # block_size_x, e.g., 1 to 32 (max 1024/1)
 # block_sizes_candidates = list(set(block_sizes_candidates)) # Remove duplicates if any
 
 # Sample from block_sizes_candidates
-num_samples = 10 # You had 10, for a good surface plot, you might need more like 50-100+
+num_samples = 250 # You had 10, for a good surface plot, you might need more like 50-100+
                  # depending on how many unique x and y coordinates they produce.
 if len(block_sizes_candidates) == 0:
     print("Error: No valid block_sizes_candidates generated. Exiting.")
