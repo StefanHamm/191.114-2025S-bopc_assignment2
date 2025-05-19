@@ -24,7 +24,7 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
         if(z.magnitude2() > max_mag)
             break;
     }
-    std:cout << "threadColId: ", threadColId, " threadRowId: ", threadRowId, " scaledX: ", scaledX, " scaledY: ", scaledY;
+    std::cout << "threadColId: ", threadColId, " threadRowId: ", threadRowId, " scaledX: ", scaledX, " scaledY: ", scaledY;
     julia_set[threadRowId*res_x+threadColId] = i;
     // return i;
 
