@@ -40,6 +40,7 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
     cudaDeviceProp prop;   
     cudaGetDeviceProperties( &prop, device);
 
+    int max_block_size;
     max_block_size = prop.maxThreadsPerBlock;
 
 
