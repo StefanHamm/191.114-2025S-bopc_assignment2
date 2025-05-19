@@ -1,0 +1,33 @@
+CPP=nvcc
+CPPFLAGS=-DMODE=1 
+
+all: juliaset_gpu
+
+solution: juliaset_gpu_solution
+
+juliaset_gpu: juliaset.o image.o cli_parser.o kernel_gpu.o
+	$(CPP) $(CPPFLAGS) -o juliaset_gpu juliaset.o image.o cli_parser.o kernel_gpu.o
+
+juliaset_gpu_solution: juliaset.o image.o cli_parser.o kernel_gpu_solution.o
+	$(CPP) $(CPPFLAGS) -o juliaset_gpu juliaset.o image.o cli_parser.o kernel_gpu_solution.o
+
+juliaset.o: juliaset.cpp image.hpp complex_gpu.cuh
+	$(CPP) $(CPPFLAGS) -x cu -c juliaset.cpp 
+
+image.o: image.cpp image.hpp
+	$(CPP) $(CPPFLAGS) -c image.cpp
+
+cli_parser.o: cli_parser.cpp cli_parser.hpp
+	$(CPP) $(CPPFLAGS) -c cli_parser.cpp
+
+%.o: %.cu
+	$(CPP) $(CPPFLAGS) -c $< 
+
+#kernel_gpu.o: kernel_cpu.cu kernel.hpp
+#	$(CPP) $(CPPFLAGS) -c kernel_gpu.cu
+
+#kernel_gpu_solution.o: kernel_cpu_solution.cu kernel.hpp
+#	$(CPP) $(CPPFLAGS) -c kernel_cpu_solution.cu
+
+clean: 
+	rm *.o

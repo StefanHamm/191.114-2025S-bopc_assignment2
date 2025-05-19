@@ -1,0 +1,17 @@
+#! /bin/bash
+
+#SBATCH -t 5
+#SBATCH -p q_student_gpu
+#SBATCH --gpus=2
+# #SBATCH --gres=gpu:tesla:1
+# #SBATCH --gres=gpu:ampere:1
+
+. vars_in.sh
+
+BINARY="../src/juliaset_gpu"
+
+for SIZE in "${SIZE_LIST[@]}"
+do 
+  $BINARY -r $SIZE $SIZE -n $NREP -o "task2_${SIZE}.csv"
+done
+
