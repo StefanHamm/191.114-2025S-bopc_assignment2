@@ -113,7 +113,7 @@ plt.figure(figsize=(10, 5))
 plt.plot(df_plot_data.index, df_plot_data['mean_runtime'], label='Mean Runtime', marker='o')
 plt.plot(df_plot_data.index, df_plot_data['max_runtime'], label='Max Runtime', marker='o')
 plt.xlabel('Input Size (resolution width/height)')
-plt.ylabel('Runtime (s)')
+plt.ylabel('Runtime (ms)')
 # Add current block size configuration to title if it's fixed for the plot
 plot_title = 'Runtime vs Input Size'
 if len(block_sizes) == 1:
