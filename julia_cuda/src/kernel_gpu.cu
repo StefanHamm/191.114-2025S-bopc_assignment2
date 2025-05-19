@@ -33,19 +33,20 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
 void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
 
     // compute a good default block size
-    int device;
-    cudaGetDevice(&device);
+    //int device;
+    //cudaGetDevice(&device);
 
-    cudaDeviceProp prop;   
-    cudaGetDeviceProperties( &prop, device);
+    //cudaDeviceProp prop;   
+    //cudaGetDeviceProperties( &prop, device);
 
-    int max_block_size;
-    max_block_size = prop.maxThreadsPerBlock;
+    //int max_block_size;
+    //max_block_size = prop.maxThreadsPerBlock;
 
 
     dim3 blockShape;
     if (global_block_x == -1 && global_block_y == -1) {
-        blockShape = dim3(32, max_block_size/32);
+        //blockShape = dim3(32, max_block_size/32);
+        blockShape = dim3(6, 16);
     }
     else {
         blockShape = dim3(global_block_x, global_block_y);
