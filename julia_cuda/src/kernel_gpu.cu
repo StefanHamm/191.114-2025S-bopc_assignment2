@@ -34,7 +34,7 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
 
     // compute a good default block size
     int device;
-    cudaGetDevice(&device)
+    cudaGetDevice(&device);
 
     cudaDeviceProp prop;   
     cudaGetDeviceProperties( &prop, device);
