@@ -1,4 +1,5 @@
 #include "kernel.hpp"
+#include <cstdio>
 
 int checkPointForJuliaSet(int x, int y, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
     float scaledX = scale * x_scale * (float) (x - res_x / 2) / (res_x / 2);
