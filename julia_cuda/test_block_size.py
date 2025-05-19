@@ -11,18 +11,18 @@ import random
 problem_sizes = [1000, 2000, 4000, 8000, 16000, 20000]
 block_sizes = [(i, j) for i in range(1, 1025, 1) for j in range(16, 1025, 1) if i * j % 32 == 0 and i * j <= 1024]
 #sample from block_sizes into block_sizes 200 samples without replacement
-block_sizes = random.sample(block_sizes, 10)
+block_sizes = random.sample(block_sizes, 200)
 print(block_sizes)
 results = []
 raw_results = []
-
+reps = 5
     
 print("Problem size | Processors | Mean runtime (s) | Speedup | Efficiency")
 print(len(block_sizes))
 print("-" * 70)
 for block_size in tqdm(block_sizes):
     for size in problem_sizes:
-        cmd = f"./juliaset_gpu -r {size} {size} -n 3 -b {block_size[0]} {block_size[1]}"
+        cmd = f"./juliaset_gpu -r {size} {size} -n {reps} -b {block_size[0]} {block_size[1]}"
         output = subprocess.check_output(cmd, shell=True, text=True)
 
         values = [line.strip().split(';') for line in output.strip().split('\n')]
