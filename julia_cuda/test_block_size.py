@@ -66,7 +66,10 @@ ax.set_xlabel('Global Block X')
 ax.set_ylabel('Global Block Y')
 ax.set_zlabel('Mean Runtime (s)')
 ax.set_title('3D Scatter Plot of Mean Runtime vs Global Block Size')
-plt.savefig('plots/scalability_analysis_3d.png')
+plt.savefig('blocksize_analysis_3d.png')
+
+df_raw.to_csv('blocksize_analysis_runs.csv', index=False)
+
 
 
 
@@ -162,11 +165,5 @@ plt.savefig('plots/scalability_analysis_3d.png')
 #     plt.tight_layout(rect=[0, 0.03, 1, 0.95]) # Adjust rect to make space for suptitle
 #     plt.savefig(f'plots/scalability_analysis_{workload_type}_2_2.png')
 #     plt.show()
- """
 
 # Save results to CSV
-df.to_csv('results/scalability_analysis_runs_2_2_mean.csv', index=False)
-df_raw.to_csv('results/scalability_analysis_runs_2_2_raw.csv', index=False)
-
-print("\nAnalysis complete. Results saved to scalability_analysis.csv")
-print("Plot saved to scalability_analysis.png")
