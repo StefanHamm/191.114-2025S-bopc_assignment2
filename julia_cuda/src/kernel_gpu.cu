@@ -10,6 +10,8 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
     int threadColId = blockIdx.x * blockDim.x + threadIdx.x;
     int threadRowId = blockIdx.y * blockDim.y + threadIdx.y;
 
+    if (threadColId >= res_x || threadRowId >= res_y) return;
+
     float scaledX = scale * x_scale * (float) (threadColId - res_x / 2) / (res_x / 2);
     float scaledY = scale * y_scale * (float) (threadRowId - res_y / 2) / (res_y / 2);
 
@@ -22,7 +24,7 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
         if(z.magnitude2() > max_mag)
             break;
     }
-    julia_set[threadRowId*res_y+threadColId] = i;
+    julia_set[threadRowId*res_x+threadColId] = i;
     // return i;
 
 }
