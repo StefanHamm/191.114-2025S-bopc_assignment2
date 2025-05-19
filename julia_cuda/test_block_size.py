@@ -8,21 +8,21 @@ from tqdm import tqdm
 import random
 
 # Parameters for the scalability analysis
-problem_sizes = [1500]
-block_sizes = [(i, j) for i in range(1, 1025, 1) for j in range(16, 1025, 1) if i * j % 32 == 0]
+problem_sizes = [1000, 2000, 4000, 8000, 16000, 20000]
+block_sizes = [(i, j) for i in range(1, 1025, 1) for j in range(16, 1025, 1) if i * j % 32 == 0 and i * j <= 1024]
 #sample from block_sizes into block_sizes 200 samples without replacement
-block_sizes = random.sample(block_sizes, 10)
+block_sizes = random.sample(block_sizes, 50)
 print(block_sizes)
 results = []
 raw_results = []
-
+reps = 3
     
 print("Problem size | Processors | Mean runtime (s) | Speedup | Efficiency")
 print(len(block_sizes))
 print("-" * 70)
 for block_size in tqdm(block_sizes):
     for size in problem_sizes:
-        cmd = f"./juliaset_gpu -r {size} {size} -n 3 -b {block_size[0]} {block_size[1]}"
+        cmd = f"./juliaset_gpu -r {size} {size} -n {reps} -b {block_size[0]} {block_size[1]}"
         output = subprocess.check_output(cmd, shell=True, text=True)
 
         values = [line.strip().split(';') for line in output.strip().split('\n')]
@@ -60,25 +60,18 @@ print(df_raw)
 
 df_grouped = df_raw.groupby(['global_block_x', 'global_block_y']).agg(mean_runtime=('runtime', 'mean'),
                                                                       max_runtime=('runtime', 'max'))
+#print sorted values of mean_runtime
+df_grouped = df_grouped.sort_values(by='mean_runtime', ascending=True)
 print(df_grouped)
 
-#create a 3d plot of df_grouped with block size x (global_block_x) on one axis and global_block_y on the other axis. please use the mean as the z axis. use matplotlib.
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
-
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(df_grouped.index.get_level_values('global_block_x'), 
-           df_grouped.index.get_level_values('global_block_y'), 
-           df_grouped['mean_runtime'],
-           c=df_grouped['mean_runtime'], cmap='viridis', marker='o')
-ax.set_xlabel('Global Block X')
-ax.set_ylabel('Global Block Y')
-ax.set_zlabel('Mean Runtime (s)')
-ax.set_title('3D Scatter Plot of Mean Runtime vs Global Block Size')
-plt.savefig('blocksize_analysis_3d.png')
-
-df_raw.to_csv('blocksize_analysis_runs.csv', index=False)
+#save to csv 
+df_grouped.to_csv('block_size_analysis.csv', index=False)
+# Save the results to a CSV file
+df = pd.DataFrame(results)
+df.to_csv('results.csv', index=False)
+# save raw results to csv
+df_raw.to_csv('raw_results.csv', index=False)
+# print sorted values of mean_runtime
 
 
 
