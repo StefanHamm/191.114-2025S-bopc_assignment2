@@ -44,7 +44,7 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
     max_block_size = prop.maxThreadsPerBlock;
 
 
-    //dim3 blockShape;
+    dim3 blockShape;
     //if (global_block_x == -1 && global_block_y == -1) {
     //    blockShape = dim3(global_block_x, global_block_y);
     //}
