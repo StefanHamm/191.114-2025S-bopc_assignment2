@@ -24,10 +24,7 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
         if(z.magnitude2() > max_mag)
             break;
     }
-    //printf("threadColId: %d threadRowId: %d scaledX: %f scaledY: %f\n", threadColId, threadRowId, scaledX, scaledY);
     julia_set[threadRowId*res_x+threadColId] = (float)i/max_iter;
-    // return i;
-
 }
 
 
@@ -40,38 +37,14 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
     dim3 gridShape = dim3( (res_x+blockShape.x-1)/blockShape.x,
                             (res_y+blockShape.y-1)/blockShape.y);
 
-    //cudaMallocManaged((void**)&julia_set, res_x*res_y*sizeof(float));
     float *julia_set_d;
     cudaMalloc((void**)&julia_set_d, res_x*res_y*sizeof(float));
 
     julia_kernel_worker<<<gridShape, blockShape>>>(julia_set_d, c, scale, res_x, res_y, max_iter, max_mag, x_scale, y_scale);
-    cudaError_t err = cudaGetLastError();
-    printf("CUDA kernel launch error: %s\n", cudaGetErrorString(err));
-    if (err != cudaSuccess) {
-        std::cerr << "CUDA kernel launch error: " << cudaGetErrorString(err) << std::endl;
-    }
     
     cudaDeviceSynchronize();
 
-    //for (int i = 0; i < res_x*res_y; i++) {
-    //    printf("julia_set[%d]: %f\n", i, julia_set_d[i]);
-    //}
     cudaMemcpy(julia_set, julia_set_d, res_x*res_y*sizeof(float), cudaMemcpyDeviceToHost);
-    
-    //for (int i = 0; i < res_x*res_y; i++) {
-    //    printf("julia_set[%d]: %f\n", i, julia_set_d[i]);
-    //}
-    for (int i = 0; i < res_x*res_y; i++) {
-        printf("julia_set[%d]: %f\n", i, julia_set[i]);
-    }
-    
-    err = cudaGetLastError();
-    printf("CUDA memcpy error: %s\n", cudaGetErrorString(err));
-    if (err != cudaSuccess) {
-        std::cerr << "CUDA memcpy error: " << cudaGetErrorString(err) << std::endl;
-    }
-
-    //cudaDeviceSynchronize();
 
     cudaFree(julia_set_d);
 }
