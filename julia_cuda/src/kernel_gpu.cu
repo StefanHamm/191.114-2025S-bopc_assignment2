@@ -2,7 +2,7 @@
 #include <iostream>
 #include "kernel.hpp"
 
-extern int global_block_x, global_block_y;
+//extern int global_block_x, global_block_y;
 
 
 __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
@@ -44,8 +44,19 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
     cudaMalloc((void**)&julia_set_d, res_x*res_y*sizeof(float));
 
     julia_kernel_worker<<<gridShape, blockShape>>>(julia_set_d, c, scale, res_x, res_y, max_iter, max_mag, x_scale, y_scale);
-    cudaMemcpy(julia_set, julia_set_d, res_x*res_y*sizeof(float), cudaMemcpyDeviceToHost);
+    cudaError_t err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        std::cerr << "CUDA kernel launch error: " << cudaGetErrorString(err) << std::endl;
+    }
     
+    cudaDeviceSynchronize();
+
+    cudaMemcpy(julia_set, julia_set_d, res_x*res_y*sizeof(float), cudaMemcpyDeviceToHost);
+    err = cudaGetLastError();
+    if (err != cudaSuccess) {
+        std::cerr << "CUDA memcpy error: " << cudaGetErrorString(err) << std::endl;
+    }
+
     //cudaDeviceSynchronize();
 
     cudaFree(julia_set_d);
