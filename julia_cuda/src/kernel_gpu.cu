@@ -25,7 +25,7 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
             break;
     }
     //printf("threadColId: %d threadRowId: %d scaledX: %f scaledY: %f\n", threadColId, threadRowId, scaledX, scaledY);
-    julia_set[threadRowId*res_x+threadColId] = i/max_iter;
+    julia_set[threadRowId*res_x+threadColId] = (float)i/max_iter;
     // return i;
 
 }
