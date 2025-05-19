@@ -4,50 +4,27 @@
 
 extern int global_block_x, global_block_y;
 
-// Cuda function to compute checko point fo julia set
-// this is the worker funcion that will be called for each thread
-// the block size etc. will be set int the main julia kernel function this just caluclates the number for the thread
-// the blockIdx and blockIdy are the block number in the grid
-// the threadIdx is the thread number in the block
 
 __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
 
-    // compute the thread number in the block
-    int thread_x = threadIdx.x;
-    int thread_y = threadIdx.y;
+    int threadColId = blockIdx.x * blockDim.x + threadIdx.x;
+    int threadRowId = blockIdx.y * blockDim.y + threadIdx.y;
 
-    // compute the block number in the grid
-    int block_x = blockIdx.x;
-    int block_y = blockIdx.y;
+    float scaledX = scale * x_scale * (float) (threadColId - res_x / 2) / (res_x / 2);
+    float scaledY = scale * y_scale * (float) (threadRowId - res_y / 2) / (res_y / 2);
 
-    // compute the global thread number
-    int global_thread_x = block_x * blockDim.x + thread_x;
-    int global_thread_y = block_y * blockDim.y + thread_y;
 
-    // compute the index in the julia set array
-    int index = global_thread_y * res_x + global_thread_x;
+    Complex z(scaledX, scaledY);
 
-    // check if the index is out of bounds
-    if (global_thread_x >= res_x || global_thread_y >= res_y) {
-        return;
-    }
-
-    // compute the complex number for this pixel
-    Complex z;
-    z.real = (float)global_thread_x / (float)res_x * x_scale - scale;
-    z.imag = (float)global_thread_y / (float)res_y * y_scale - scale;
-
-    // iterate to find if it is in the julia set
-    for (int i = 0; i < max_iter; i++) {
-        if (z.magnitude() > max_mag) {
-            julia_set[index] = (float)i / (float)max_iter;
-            return;
-        }
+    int i = 0;
+    for(i = 0; i < max_iter; i++) {
         z = z * z + c;
+        if(z.magnitude2() > max_mag)
+            break;
     }
-    
-    // if we get here it is in the julia set
-    julia_set[index] = 1.0f;
+    julia_set[threadRowId*res_y+threadColId] = i;
+    // return i;
+
 }
 
 
@@ -55,6 +32,17 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
 void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
 
     // compute a good default block size
+
+    dim3 blockShape = dim3(4, 8)
+    dim3 gridShape = dim3( (res_x+blockShape.x-1)/blockShape.x,
+                            (res_y+blockShape.y-1)/blockShape.y);
+
+    cudaMallocManaged((void**)&julia_set, res_x*res_y*sizeof(float));
+
+    julia_kernel_worker<<<gridShape, blockShape>>>(julia_set, c, scale, res_x, res_y, max_iter, max_mag, x_scale, y_scale);
+    cudaDeviceSynchronize();
+
+    cudaFree(julia_set);
 
 }
 
