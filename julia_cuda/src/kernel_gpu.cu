@@ -48,9 +48,9 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
         blockShape = dim3(32, max_block_size/32);
     }
     else {
-    blockShape = dim3(global_block_x, global_block_y);
+        blockShape = dim3(global_block_x, global_block_y);
     }
-    printf("Block shape: %d %d\n", blockShape.x, blockShape.y);
+    #printf("Block shape: %d %d\n", blockShape.x, blockShape.y);
 
     
     dim3 gridShape = dim3( (res_x+blockShape.x-1)/blockShape.x,
