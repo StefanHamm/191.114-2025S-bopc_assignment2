@@ -24,6 +24,7 @@ __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, in
         if(z.magnitude2() > max_mag)
             break;
     }
+    print("i: ", i, " threadRowId: ", threadRowId, " threadColId: ", threadColId, " z.real: ", z.real, " z.imag: ", z.imag);
     julia_set[threadRowId*res_x+threadColId] = i;
     // return i;
 
@@ -45,6 +46,7 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
 
     julia_kernel_worker<<<gridShape, blockShape>>>(julia_set_d, c, scale, res_x, res_y, max_iter, max_mag, x_scale, y_scale);
     cudaError_t err = cudaGetLastError();
+    print("CUDA kernel launch error: ", err);
     if (err != cudaSuccess) {
         std::cerr << "CUDA kernel launch error: " << cudaGetErrorString(err) << std::endl;
     }
@@ -53,6 +55,7 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
 
     cudaMemcpy(julia_set, julia_set_d, res_x*res_y*sizeof(float), cudaMemcpyDeviceToHost);
     err = cudaGetLastError();
+    print("CUDA kernel launch error: ", err);
     if (err != cudaSuccess) {
         std::cerr << "CUDA memcpy error: " << cudaGetErrorString(err) << std::endl;
     }
