@@ -12,6 +12,7 @@ problem_sizes = [1500]
 block_sizes = [(i, j) for i in range(1, 1025, 1) for j in range(16, 1025, 1) if i * j % 32 == 0]
 #sample from block_sizes into block_sizes 200 samples without replacement
 block_sizes = random.sample(block_sizes, 10)
+print(block_sizes)
 results = []
 raw_results = []
 
@@ -55,9 +56,11 @@ for block_size in tqdm(block_sizes):
 # Convert results to DataFrame
 df_raw = pd.DataFrame(raw_results)
 
+print(df_raw)
 
 df_grouped = df_raw.groupby(['global_block_x', 'global_block_y']).agg(mean_runtime=('runtime', 'mean'),
                                                                       max_runtime=('runtime', 'max'))
+print(df_grouped)
 
 #create a 3d plot of df_grouped with block size x (global_block_x) on one axis and global_block_y on the other axis. please use the mean as the z axis. use matplotlib.
 import matplotlib.pyplot as plt
