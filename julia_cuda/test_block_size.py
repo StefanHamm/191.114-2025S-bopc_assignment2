@@ -60,23 +60,78 @@ print(df_raw)
 
 df_grouped = df_raw.groupby(['global_block_x', 'global_block_y']).agg(mean_runtime=('runtime', 'mean'),
                                                                       max_runtime=('runtime', 'max'))
-print(df_grouped)
+# ---- START: Plotly 3D Surface Plot ----
+import plotly.graph_objects as go
+import pandas as pd # Ensure pandas is imported if this snippet is run standalone
 
-#create a 3d plot of df_grouped with block size x (global_block_x) on one axis and global_block_y on the other axis. please use the mean as the z axis. use matplotlib.
-import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+# Assuming df_grouped is already created and populated as per your script:
+# df_grouped has a MultiIndex: ('global_block_x', 'global_block_y')
+# and columns: 'mean_runtime', 'max_runtime'
 
-fig = plt.figure()
-ax = fig.add_subplot(111, projection='3d')
-ax.scatter(df_grouped.index.get_level_values('global_block_x'), 
-           df_grouped.index.get_level_values('global_block_y'), 
-           df_grouped['mean_runtime'],
-           c=df_grouped['mean_runtime'], cmap='viridis', marker='o')
-ax.set_xlabel('Global Block X')
-ax.set_ylabel('Global Block Y')
-ax.set_zlabel('Mean Runtime (s)')
-ax.set_title('3D Scatter Plot of Mean Runtime vs Global Block Size')
-plt.savefig('blocksize_analysis_3d.png')
+if df_grouped.empty:
+    print("df_grouped is empty. Skipping Plotly 3D surface plot.")
+else:
+    # Prepare data for Plotly Surface plot
+    # We need a grid of Z values.
+    # Let 'global_block_x' define the rows (y-axis of the surface plot).
+    # Let 'global_block_y' define the columns (x-axis of the surface plot).
+    # The values in the grid will be 'mean_runtime'.
+    
+    # Unstack to pivot 'global_block_y' to columns.
+    # The index will be 'global_block_x'.
+    df_pivot = df_grouped['mean_runtime'].unstack(level='global_block_y')
+
+    # Sort the index (global_block_x) and columns (global_block_y)
+    # This ensures the surface is plotted correctly.
+    df_pivot = df_pivot.sort_index(axis=0) # Sort rows by global_block_x
+    df_pivot = df_pivot.sort_index(axis=1) # Sort columns by global_block_y
+
+    # Extract coordinates for the surface plot
+    # x_coords will be the column names (global_block_y values)
+    # y_coords will be the index names (global_block_x values)
+    # z_coords will be the 2D array of mean_runtime values
+    x_coords = df_pivot.columns.to_list()
+    y_coords = df_pivot.index.to_list()
+    z_coords = df_pivot.values
+
+    # Create Plotly 3D Surface plot
+    fig_plotly = go.Figure(data=[go.Surface(
+        z=z_coords,  # 2D array of Z values
+        x=x_coords,  # 1D array for X-axis (corresponds to columns of Z)
+        y=y_coords,  # 1D array for Y-axis (corresponds to rows of Z)
+        colorscale='Viridis',       # Choose a colorscale
+        colorbar=dict(title='Mean Runtime (s)'), # Colorbar title
+        contours_z=dict( # Add contours on the Z-axis projection
+            show=True, 
+            usecolormap=True, 
+            highlightcolor="limegreen", 
+            project_z=True
+        ),
+        name='Mean Runtime'
+    )])
+
+    # Update layout for titles and axis labels
+    fig_plotly.update_layout(
+        title='3D Surface Plot of Mean Runtime vs Global Block Configuration',
+        scene=dict(
+            xaxis_title='Global Block Y (Threads)', # Corresponds to x_coords
+            yaxis_title='Global Block X (Threads)', # Corresponds to y_coords
+            zaxis_title='Mean Runtime (s)',
+            # You can adjust camera and aspect ratio if needed
+            # camera=dict(eye=dict(x=1.8, y=1.8, z=0.7)),
+            aspectratio=dict(x=1, y=1, z=0.6) 
+        ),
+        autosize=False,
+        width=1000, # Adjust width
+        height=800, # Adjust height
+        margin=dict(l=65, r=50, b=65, t=90) # Adjust margins
+    )
+
+    # Save to an interactive HTML file
+    plot_filename_html = 'blocksize_analysis_3d_surface.html'
+    fig_plotly.write_html(plot_filename_html)
+    print(f"Saved Plotly 3D surface plot to {plot_filename_html}")
+
 
 df_raw.to_csv('blocksize_analysis_runs.csv', index=False)
 
