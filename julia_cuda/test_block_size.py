@@ -191,7 +191,7 @@ else:
                 colorbar=dict(title='Mean Runtime (s)'),
                 contours_z=dict(show=True, usecolormap=True, highlightcolor="limegreen", project_z=True),
                 name='Mean Runtime',
-                connectgaps=False # Set to True if you want to try to connect over NaN gaps
+                connectgaps=True # Set to True if you want to try to connect over NaN gaps
             )])
 
             fig_plotly.update_layout(
