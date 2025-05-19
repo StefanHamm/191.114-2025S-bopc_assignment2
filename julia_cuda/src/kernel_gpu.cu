@@ -39,12 +39,15 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
     dim3 gridShape = dim3( (res_x+blockShape.x-1)/blockShape.x,
                             (res_y+blockShape.y-1)/blockShape.y);
 
-    cudaMallocManaged((void**)&julia_set, res_x*res_y*sizeof(float));
+    //cudaMallocManaged((void**)&julia_set, res_x*res_y*sizeof(float));
+    float *julia_set_d;
+    cudaMalloc((void**)&julia_set_d, res_x*res_y*sizeof(float));
 
-    julia_kernel_worker<<<gridShape, blockShape>>>(julia_set, c, scale, res_x, res_y, max_iter, max_mag, x_scale, y_scale);
-    cudaDeviceSynchronize();
+    julia_kernel_worker<<<gridShape, blockShape>>>(julia_set_d, c, scale, res_x, res_y, max_iter, max_mag, x_scale, y_scale);
+    cudaMemcpy(julia_set, julia_set_d, res_x*res_y*sizeof(float), cudaMemcpyDeviceToHost);
+    
+    //cudaDeviceSynchronize();
 
-    cudaFree(julia_set);
-
+    cudaFree(julia_set_d);
 }
 
