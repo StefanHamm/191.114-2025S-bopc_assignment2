@@ -8,7 +8,6 @@ extern int global_block_x, global_block_y;
 
 __global__ void julia_kernel_worker(float *julia_set, Complex c, float scale, int res_x, int res_y, int max_iter, float max_mag, float x_scale, float y_scale) {
 
-    printf("Thread %d, %d\n", blockDim.x, blockDim.y);
     int threadColId = blockIdx.x * blockDim.x + threadIdx.x;
     int threadRowId = blockIdx.y * blockDim.y + threadIdx.y;
 
@@ -45,13 +44,13 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
 
 
     dim3 blockShape;
-    //if (global_block_x == -1 && global_block_y == -1) {
-    //    blockShape = dim3(global_block_x, global_block_y);
-    //}
-    //else {
+    if (global_block_x == -1 && global_block_y == -1) {
+        blockShape = dim3(32, max_block_size/32);
+    }
+    else {
     blockShape = dim3(global_block_x, global_block_y);
-    //}
-    
+    }
+    printf("Block shape: %d %d\n", blockShape.x, blockShape.y);
 
     
     dim3 gridShape = dim3( (res_x+blockShape.x-1)/blockShape.x,
