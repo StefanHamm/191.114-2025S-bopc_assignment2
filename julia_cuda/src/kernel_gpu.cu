@@ -39,10 +39,19 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
     cudaDeviceProp prop;   
     cudaGetDeviceProperties( &prop, device);
 
-    printf("Using device %d: %s\n", device, prop.name);
-    printf("Max threads per block: %d\n", prop.maxThreadsPerBlock);
+    int max_block_size;
+    max_block_size = prop.maxThreadsPerBlock;
 
-    dim3 blockShape = dim3(global_block_x, global_block_y);
+
+    dim3 blockShape;
+    if (global_block_x == -1 && global_block_y == -1) {
+        blockShape = dim3(32, max_block_size/32);
+    }
+    else {
+        blockShape = dim3(global_block_x, global_block_y);
+    }
+
+    
     dim3 gridShape = dim3( (res_x+blockShape.x-1)/blockShape.x,
                             (res_y+blockShape.y-1)/blockShape.y);
 
