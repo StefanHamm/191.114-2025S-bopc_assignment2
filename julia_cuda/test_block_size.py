@@ -10,7 +10,8 @@ import random
 # Parameters for the scalability analysis
 problem_sizes = [1500]
 block_sizes = [(i, j) for i in range(1, 1025, 1) for j in range(16, 1025, 1) if i * j % 32 == 0]
-block_sizes = random.sample(block_sizes, 200, replace=False)  
+#sample from block_sizes into block_sizes 200 samples without replacement
+block_sizes = random.sample(block_sizes, 200)
 results = []
 raw_results = []
 
