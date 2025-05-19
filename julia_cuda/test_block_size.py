@@ -64,6 +64,15 @@ df_grouped = df_raw.groupby(['global_block_x', 'global_block_y']).agg(mean_runti
 df_grouped = df_grouped.sort_values(by='mean_runtime', ascending=True)
 print(df_grouped)
 
+#save to csv 
+df_grouped.to_csv('block_size_analysis.csv', index=False)
+# Save the results to a CSV file
+df = pd.DataFrame(results)
+df.to_csv('results.csv', index=False)
+# save raw results to csv
+df_raw.to_csv('raw_results.csv', index=False)
+# print sorted values of mean_runtime
+
 
 
 
