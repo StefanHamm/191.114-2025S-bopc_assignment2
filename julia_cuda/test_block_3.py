@@ -103,7 +103,7 @@ df_raw.to_csv('raw_results3.csv', index=False)
 # Plotting: Runtime vs Input Size
 # Group df_raw by 'res_x' (which is now integer) to get data for the plot.
 # aggregate by block size
-df_plot_data = df_raw.groupby(["block_size_x_config","block_size_y_config"]).agg(
+df_plot_data = df_raw.groupby(["global_block_x","global_block_y"]).agg(
     mean_runtime=('runtime', 'mean'),
     max_runtime=('runtime', 'max')
 )
