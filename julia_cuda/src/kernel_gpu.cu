@@ -53,14 +53,14 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
     
     cudaDeviceSynchronize();
 
-    for (int i = 0; i < res_x*res_y; i++) {
-        printf("julia_set[%d]: %f\n", i, julia_set_d[i]);
-    }
+    //for (int i = 0; i < res_x*res_y; i++) {
+    //    printf("julia_set[%d]: %f\n", i, julia_set_d[i]);
+    //}
     cudaMemcpy(julia_set, julia_set_d, res_x*res_y*sizeof(float), cudaMemcpyDeviceToHost);
     
-    for (int i = 0; i < res_x*res_y; i++) {
-        printf("julia_set[%d]: %f\n", i, julia_set_d[i]);
-    }
+    //for (int i = 0; i < res_x*res_y; i++) {
+    //    printf("julia_set[%d]: %f\n", i, julia_set_d[i]);
+    //}
     
     err = cudaGetLastError();
     printf("CUDA memcpy error: %s\n", cudaGetErrorString(err));
