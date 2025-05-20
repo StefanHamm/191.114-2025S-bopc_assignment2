@@ -65,7 +65,7 @@ for block_size_tuple in tqdm(block_sizes):
         # Parse CPU output lines
         for fields in parsed_lines2:
             rep_str, res_x_str, res_y_str, scale_str, gbx_str, gby_str, runtime_str = fields
-             try:
+            try:
                 runtime_val = float(runtime_str)
                 raw_results2.append({
                     'rep': int(rep_str),
