@@ -14,3 +14,7 @@ scp hydra:~/191.114-2025S-bopc_assignment2/julia_cuda/src/runtime_vs_block_size_
 scp hydra:~/191.114-2025S-bopc_assignment2/julia_cuda/src/runtime_vs_input_size.png ./plots/
 
 scp hydra:~/191.114-2025S-bopc_assignment2/julia_cuda/src/nvprof_output_3_2.txt ./results/
+
+
+scp hydra:~/191.114-2025S-bopc_assignment2/julia_cuda/src/*4.cvs ./results/
+scp hydra:~/191.114-2025S-bopc_assignment2/julia_cuda/src/*4.png ./plots/

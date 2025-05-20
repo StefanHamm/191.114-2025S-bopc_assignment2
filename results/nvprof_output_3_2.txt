@@ -1,0 +1,125 @@
+==800109== NVPROF is profiling process 800109, command: ./juliaset_gpu -r 20000 20000 -n 5 -b 1 1
+0;20000;20000;0.5;1;1;7238087
+1;20000;20000;0.5;1;1;6293614
+2;20000;20000;0.5;1;1;6343555
+3;20000;20000;0.5;1;1;6206343
+4;20000;20000;0.5;1;1;6231479
+==800109== Profiling application: ./juliaset_gpu -r 20000 20000 -n 5 -b 1 1
+==800109== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   94.72%  30.1915s         5  6.03831s  6.03830s  6.03832s  julia_kernel_worker(float*, Complex, float, int, int, int, float, float, float)
+                    5.28%  1.68254s         5  336.51ms  164.30ms  774.93ms  [CUDA memcpy DtoH]
+      API calls:   94.02%  30.1916s         5  6.03833s  6.03831s  6.03834s  cudaDeviceSynchronize
+                    5.25%  1.68458s         5  336.92ms  164.81ms  775.91ms  cudaMemcpy
+                    0.69%  220.90ms         5  44.179ms  1.0094ms  216.64ms  cudaMalloc
+                    0.03%  9.9995ms         5  1.9999ms  1.4579ms  2.2120ms  cudaFree
+                    0.01%  2.6354ms         5  527.09us  30.878us  2.4561ms  cudaLaunchKernel
+                    0.01%  2.2720ms       114  19.929us     110ns  1.1598ms  cuDeviceGetAttribute
+                    0.00%  13.826us         1  13.826us  13.826us  13.826us  cuDeviceGetName
+                    0.00%  13.285us         1  13.285us  13.285us  13.285us  cuDeviceGetPCIBusId
+                    0.00%  1.2240us         3     408ns     181ns     842ns  cuDeviceGetCount
+                    0.00%     741ns         1     741ns     741ns     741ns  cuDeviceTotalMem
+                    0.00%     450ns         2     225ns     130ns     320ns  cuDeviceGet
+                    0.00%     341ns         1     341ns     341ns     341ns  cuModuleGetLoadingMode
+                    0.00%     170ns         1     170ns     170ns     170ns  cuDeviceGetUuid
+
+==800147== NVPROF is profiling process 800147, command: ./juliaset_gpu -r 20000 20000 -n 5 -b 32 1
+0;20000;20000;0.5;32;1;1451162
+1;20000;20000;0.5;32;1;589231
+2;20000;20000;0.5;32;1;521935
+3;20000;20000;0.5;32;1;444592
+4;20000;20000;0.5;32;1;422448
+==800147== Profiling application: ./juliaset_gpu -r 20000 20000 -n 5 -b 32 1
+==800147== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   56.39%  1.68525s         5  337.05ms  158.53ms  763.57ms  [CUDA memcpy DtoH]
+                   43.61%  1.30349s         5  260.70ms  260.68ms  260.72ms  julia_kernel_worker(float*, Complex, float, int, int, int, float, float, float)
+      API calls:   52.23%  1.68711s         5  337.42ms  158.67ms  764.49ms  cudaMemcpy
+                   40.36%  1.30351s         5  260.70ms  260.69ms  260.72ms  cudaDeviceSynchronize
+                    6.96%  224.87ms         5  44.974ms  1.0380ms  220.54ms  cudaMalloc
+                    0.30%  9.6464ms         5  1.9293ms  1.4277ms  2.1518ms  cudaFree
+                    0.08%  2.5789ms         5  515.78us  25.879us  2.4021ms  cudaLaunchKernel
+                    0.07%  2.2764ms       114  19.968us     110ns  1.1536ms  cuDeviceGetAttribute
+                    0.00%  13.265us         1  13.265us  13.265us  13.265us  cuDeviceGetName
+                    0.00%  9.4280us         1  9.4280us  9.4280us  9.4280us  cuDeviceGetPCIBusId
+                    0.00%  1.2240us         3     408ns     151ns     862ns  cuDeviceGetCount
+                    0.00%     812ns         1     812ns     812ns     812ns  cuDeviceTotalMem
+                    0.00%     461ns         1     461ns     461ns     461ns  cuModuleGetLoadingMode
+                    0.00%     390ns         2     195ns     140ns     250ns  cuDeviceGet
+                    0.00%     180ns         1     180ns     180ns     180ns  cuDeviceGetUuid
+
+==800172== NVPROF is profiling process 800172, command: ./juliaset_gpu -r 20000 20000 -n 5 -b 1 32
+0;20000;20000;0.5;1;32;1450264
+1;20000;20000;0.5;1;32;589445
+2;20000;20000;0.5;1;32;521328
+3;20000;20000;0.5;1;32;444693
+4;20000;20000;0.5;1;32;422121
+==800172== Profiling application: ./juliaset_gpu -r 20000 20000 -n 5 -b 1 32
+==800172== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   56.51%  1.68949s         5  337.90ms  158.85ms  765.86ms  [CUDA memcpy DtoH]
+                   43.49%  1.30027s         5  260.05ms  260.05ms  260.06ms  julia_kernel_worker(float*, Complex, float, int, int, int, float, float, float)
+      API calls:   52.40%  1.69141s         5  338.28ms  158.99ms  766.81ms  cudaMemcpy
+                   40.28%  1.30029s         5  260.06ms  260.05ms  260.06ms  cudaDeviceSynchronize
+                    6.87%  221.81ms         5  44.362ms  1.0338ms  217.49ms  cudaMalloc
+                    0.30%  9.6895ms         5  1.9379ms  1.4569ms  2.1546ms  cudaFree
+                    0.08%  2.5494ms         5  509.89us  27.241us  2.3701ms  cudaLaunchKernel
+                    0.07%  2.2769ms       114  19.972us     110ns  1.1568ms  cuDeviceGetAttribute
+                    0.00%  13.465us         1  13.465us  13.465us  13.465us  cuDeviceGetPCIBusId
+                    0.00%  13.134us         1  13.134us  13.134us  13.134us  cuDeviceGetName
+                    0.00%  1.2630us         1  1.2630us  1.2630us  1.2630us  cuDeviceTotalMem
+                    0.00%  1.1240us         3     374ns     201ns     722ns  cuDeviceGetCount
+                    0.00%     441ns         2     220ns     131ns     310ns  cuDeviceGet
+                    0.00%     371ns         1     371ns     371ns     371ns  cuModuleGetLoadingMode
+                    0.00%     190ns         1     190ns     190ns     190ns  cuDeviceGetUuid
+
+==800213== NVPROF is profiling process 800213, command: ./juliaset_gpu -r 20000 20000 -n 5 -b 128 1
+==800213== 0;20000;20000;0.5;128;1;1410699
+1;20000;20000;0.5;128;1;541159
+2;20000;20000;0.5;128;1;488602
+3;20000;20000;0.5;128;1;365719
+4;20000;20000;0.5;128;1;365599
+Profiling application: ./juliaset_gpu -r 20000 20000 -n 5 -b 128 1
+==800213== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   62.54%  1.70509s         5  341.02ms  158.04ms  781.12ms  [CUDA memcpy DtoH]
+                   37.46%  1.02137s         5  204.27ms  204.25ms  204.29ms  julia_kernel_worker(float*, Complex, float, int, int, int, float, float, float)
+      API calls:   57.44%  1.70701s         5  341.40ms  158.19ms  782.08ms  cudaMemcpy
+                   34.47%  1.02437s         5  204.87ms  204.26ms  207.28ms  cudaDeviceSynchronize
+                    7.46%  221.74ms         5  44.348ms  337.92us  218.00ms  cudaMalloc
+                    0.46%  13.553ms         5  2.7106ms  1.4653ms  6.0471ms  cudaFree
+                    0.09%  2.6296ms         5  525.92us  26.840us  2.4463ms  cudaLaunchKernel
+                    0.08%  2.2743ms       114  19.949us     110ns  1.1618ms  cuDeviceGetAttribute
+                    0.00%  23.634us         1  23.634us  23.634us  23.634us  cuDeviceGetName
+                    0.00%  12.784us         1  12.784us  12.784us  12.784us  cuDeviceGetPCIBusId
+                    0.00%     791ns         3     263ns     180ns     431ns  cuDeviceGetCount
+                    0.00%     702ns         1     702ns     702ns     702ns  cuDeviceTotalMem
+                    0.00%     461ns         2     230ns     130ns     331ns  cuDeviceGet
+                    0.00%     330ns         1     330ns     330ns     330ns  cuModuleGetLoadingMode
+                    0.00%     221ns         1     221ns     221ns     221ns  cuDeviceGetUuid
+
+==800246== NVPROF is profiling process 800246, command: ./juliaset_gpu -r 20000 20000 -n 5 -b 1024 1
+0;20000;20000;0.5;1024;1;1507848
+1;20000;20000;0.5;1024;1;630866
+2;20000;20000;0.5;1024;1;557951
+3;20000;20000;0.5;1024;1;480448
+4;20000;20000;0.5;1024;1;458950
+==800246== Profiling application: ./juliaset_gpu -r 20000 20000 -n 5 -b 1024 1
+==800246== Profiling result:
+            Type  Time(%)      Time     Calls       Avg       Min       Max  Name
+ GPU activities:   53.42%  1.70632s         5  341.26ms  158.20ms  781.97ms  [CUDA memcpy DtoH]
+                   46.58%  1.48766s         5  297.53ms  297.52ms  297.54ms  julia_kernel_worker(float*, Complex, float, int, int, int, float, float, float)
+      API calls:   49.72%  1.70820s         5  341.64ms  158.34ms  782.90ms  cudaMemcpy
+                   43.30%  1.48768s         5  297.54ms  297.53ms  297.54ms  cudaDeviceSynchronize
+                    6.55%  224.90ms         5  44.979ms  1.0324ms  220.58ms  cudaMalloc
+                    0.28%  9.7027ms         5  1.9405ms  1.4478ms  2.1852ms  cudaFree
+                    0.08%  2.5928ms         5  518.55us  21.641us  2.4197ms  cudaLaunchKernel
+                    0.07%  2.2797ms       114  19.997us     110ns  1.1617ms  cuDeviceGetAttribute
+                    0.00%  13.715us         1  13.715us  13.715us  13.715us  cuDeviceGetName
+                    0.00%  9.1780us         1  9.1780us  9.1780us  9.1780us  cuDeviceGetPCIBusId
+                    0.00%  1.0420us         3     347ns     150ns     692ns  cuDeviceGetCount
+                    0.00%     621ns         1     621ns     621ns     621ns  cuDeviceTotalMem
+                    0.00%     481ns         1     481ns     481ns     481ns  cuModuleGetLoadingMode
+                    0.00%     461ns         2     230ns     120ns     341ns  cuDeviceGet
+                    0.00%     191ns         1     191ns     191ns     191ns  cuDeviceGetUuid
+
