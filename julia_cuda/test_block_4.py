@@ -31,9 +31,11 @@ for block_size_tuple in tqdm(block_sizes):
         cmd = f"./juliaset_gpu -r {size} {size} -n {reps} -b {configured_block_x} {configured_block_y}"
         output = subprocess.check_output(cmd, shell=True, text=True)
         print("Running CPU version")
-        cmd2 = f"./juliaset_cpu -r {size} {size} -n {reps}"
-        output2 = subprocess.check_output(cmd2, shell=True, text=True)
-        
+        try:
+            cmd2 = f"./juliaset_cpu -r {size} {size} -n {reps}"
+            output2 = subprocess.check_output(cmd2, shell=True, text=True,timeout=7)
+        except subprocess.TimeoutExpired:
+            ouput2 = "0;200;200;0.5;-1;-1;70000000"   
         # Parse output lines
         # Example line format: rep;res_x;res_y;scale;global_block_x;global_block_y;runtime_str
         parsed_lines = [line.strip().split(';') for line in output.strip().split('\n') if line.strip()]
