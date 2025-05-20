@@ -26,7 +26,4 @@ void julia_kernel(float *julia_set, Complex c, float scale, int res_x, int res_y
         }
     }
 
-    for (int i = 0; i < res_x*res_y; i++) {
-        printf("julia_set[%d]: %f\n", i, julia_set[i]);
-    }
 }
