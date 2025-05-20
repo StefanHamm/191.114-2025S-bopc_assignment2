@@ -27,7 +27,7 @@ for block_size_tuple in tqdm(block_sizes):
     for size in problem_sizes:
         cmd = f"./juliaset_gpu -r {size} {size} -n {reps} -b {configured_block_x} {configured_block_y}"
         output = subprocess.check_output(cmd, shell=True, text=True)
-        outputNvprof = subprocess.check_output("nvprof "+cmd,shell=True, text=True)
+        outputNvprof = subprocess.check_output("nvprof "+cmd,shell=True, text=True,stderr=subprocess.STDOUT)
         nvprof += outputNvprof + "\n"
         # Parse output lines
         # Example line format: rep;res_x;res_y;scale;global_block_x;global_block_y;runtime_str
