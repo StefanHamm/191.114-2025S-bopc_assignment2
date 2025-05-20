@@ -115,7 +115,7 @@ plt.plot(df_plot_data.index, df_plot_data['max_runtime'], label='Max Runtime', m
 plt.xlabel('Block Size (X, Y)')
 plt.xticks(rotation=45)
 plt.ylabel('Runtime (micro seconds)')
-plt.yscale('log')
+#plt.yscale('log')
 plot_title = 'Runtime fixed Problem Size vs Block Size'
 if len(block_sizes) == 1:
     plot_title += f' (Runtimes for fixed problem size 20000)'
