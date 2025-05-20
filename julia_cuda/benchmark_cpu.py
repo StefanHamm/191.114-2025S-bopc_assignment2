@@ -16,8 +16,8 @@ timeout_seconds_map = {
     1000: 180,  # 3 minutes
     2000: 300,  # 5 minutes
     4000: 600,  # 10 minutes
-    8000: 15,   # 15 seconds (as per original script's quick timeout for larger sizes)
-    16000: 15   # 15 seconds (as per original script's quick timeout for larger sizes)
+    8000: 30,   # 15 seconds (as per original script's quick timeout for larger sizes)
+    16000: 60   # 15 seconds (as per original script's quick timeout for larger sizes)
 }
 # Runtime to record (in microseconds) if a timeout occurs.
 # Original script used 150,000,000 us.
