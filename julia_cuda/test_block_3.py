@@ -100,28 +100,28 @@ df_summary.to_csv('results3.csv', index=False)
 # Save raw results
 df_raw.to_csv('raw_results3.csv', index=False)
 
-# Plotting: Runtime vs Input Size
-# Group df_raw by 'res_x' (which is now integer) to get data for the plot.
-# aggregate by block size
+import matplotlib.pyplot as plt
+
 df_plot_data = df_raw.groupby(["global_block_x","global_block_y"]).agg(
     mean_runtime=('runtime', 'mean'),
     max_runtime=('runtime', 'max')
 )
-# df_plot_data.index will be a simple numeric index (e.g., Int64Index: [1000, 2000, ...])
+# Convert MultiIndex to string labels for plotting
+df_plot_data.index = [f'({x}, {y})' for x, y in df_plot_data.index]
 
 plt.figure(figsize=(10, 5))
 plt.plot(df_plot_data.index, df_plot_data['mean_runtime'], label='Mean Runtime', marker='o')
 plt.plot(df_plot_data.index, df_plot_data['max_runtime'], label='Max Runtime', marker='o')
 plt.xlabel('Block Size (X, Y)')
-plt.xticks(rotation=45)  # Rotate x-axis labels for better readability
+plt.xticks(rotation=45)
 plt.ylabel('Runtime (ms)')
-# Add current block size configuration to title if it's fixed for the plot
-plot_title = 'Runtime vs Input Size'
+
+plot_title = 'Runtime vs Block Size'
 if len(block_sizes) == 1:
     plot_title += f' (Runtimes for fixed problem size 20000)'
 plt.title(plot_title)
 plt.legend()
 plt.grid(True)
+plt.tight_layout()
 plt.savefig('runtime_vs_input_size.png')
 print("\nPlot 'runtime_vs_input_size.png' saved.")
-# plt.show() # Uncomment to display plot if running in an environment that supports it
