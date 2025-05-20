@@ -116,12 +116,12 @@ plt.xlabel('Block Size (X, Y)')
 plt.xticks(rotation=45)
 plt.ylabel('Runtime (micro seconds)')
 plt.yscale('log')
-plot_title = 'Runtime vs Block Size'
+plot_title = 'Runtime fixed Problem Size vs Block Size'
 if len(block_sizes) == 1:
     plot_title += f' (Runtimes for fixed problem size 20000)'
 plt.title(plot_title)
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('runtime_vs_input_size_3.png')
-print("\nPlot 'runtime_vs_input_size.png' saved.")
+plt.savefig('runtime_vs_block_size_3.png')
+print("\nPlot 'runtime_vs_block_size_3.png' saved.")
