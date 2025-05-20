@@ -114,8 +114,8 @@ plt.plot(df_plot_data.index, df_plot_data['mean_runtime'], label='Mean Runtime',
 plt.plot(df_plot_data.index, df_plot_data['max_runtime'], label='Max Runtime', marker='o')
 plt.xlabel('Block Size (X, Y)')
 plt.xticks(rotation=45)
-plt.ylabel('Runtime (ms)')
-
+plt.ylabel('Runtime (micro seconds)')
+plt.yscale('log')
 plot_title = 'Runtime vs Block Size'
 if len(block_sizes) == 1:
     plot_title += f' (Runtimes for fixed problem size 20000)'
@@ -123,5 +123,5 @@ plt.title(plot_title)
 plt.legend()
 plt.grid(True)
 plt.tight_layout()
-plt.savefig('runtime_vs_input_size.png')
+plt.savefig('runtime_vs_input_size_3.png')
 print("\nPlot 'runtime_vs_input_size.png' saved.")
