@@ -11,7 +11,8 @@ import random
 problem_sizes = [1000, 2000, 4000, 8000, 16000, 20000]
 block_sizes = [(i, j) for i in range(1, 1025, 1) for j in range(16, 1025, 1) if i * j % 32 == 0 and i * j <= 1024]
 #sample from block_sizes into block_sizes 200 samples without replacement
-block_sizes = random.sample(block_sizes, 50)
+block_sizes = random.sample(block_sizes, 49)
+block_sizes.append(6,16)
 print(block_sizes)
 results = []
 raw_results = []
