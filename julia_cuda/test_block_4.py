@@ -27,8 +27,10 @@ print("-" * 70)
 for block_size_tuple in tqdm(block_sizes):
     configured_block_x, configured_block_y = block_size_tuple
     for size in problem_sizes:
+        print(f"Running GPU version with block size {configured_block_x}x{configured_block_y} for problem size {size}")
         cmd = f"./juliaset_gpu -r {size} {size} -n {reps} -b {configured_block_x} {configured_block_y}"
         output = subprocess.check_output(cmd, shell=True, text=True)
+        print("Running CPU version")
         cmd2 = f"./juliaset_cpu -r {size} {size} -n {reps}"
         output2 = subprocess.check_output(cmd2, shell=True, text=True)
         
@@ -323,7 +325,7 @@ if not df_summary_cpu.empty or not df_summary_gpu.empty:
         plt.minorticks_off() # Can be enabled if desired: plt.minorticks_on()
     
     plt.tight_layout()
-    plt.savefig('runtime_vs_problem_size_comparison3.png')
+    plt.savefig('runtime_vs_problem_size_comparison4.png')
     print("\nPlot 'runtime_vs_problem_size_comparison3.png' saved.")
 else:
     print("\nSkipping 'runtime_vs_problem_size_comparison3.png': Both CPU and GPU summary data are empty.")
@@ -384,7 +386,7 @@ if not df_summary_cpu.empty and not df_summary_gpu.empty:
         # Y-axis for speedup is typically linear. Can be log if speedups vary over orders of magnitude.
         # plt.yscale('log')
         plt.tight_layout()
-        plt.savefig('speedup_vs_problem_size_detailed3.png')
+        plt.savefig('speedup_vs_problem_size_detailed4.png')
         print("\nPlot 'speedup_vs_problem_size_detailed3.png' saved.")
     else:
         print("\nNo speedup data was plotted. Check for matching problem sizes, non-zero GPU runtimes, and non-empty CPU/GPU results.")
