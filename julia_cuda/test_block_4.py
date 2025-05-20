@@ -36,7 +36,7 @@ for block_size_tuple in tqdm(block_sizes):
             output2 = subprocess.check_output(cmd2, shell=True, text=True,timeout=7)
         except subprocess.TimeoutExpired:
             print(f"CPU command timed out for size {size}. Skipping this size.")
-            ouput2 = "0;200;200;0.5;-1;-1;70000000"   
+            output2 = "0;200;200;0.5;-1;-1;70000000"   
         # Parse output lines
         # Example line format: rep;res_x;res_y;scale;global_block_x;global_block_y;runtime_str
         parsed_lines = [line.strip().split(';') for line in output.strip().split('\n') if line.strip()]
