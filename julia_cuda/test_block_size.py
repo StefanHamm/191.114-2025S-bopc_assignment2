@@ -65,10 +65,10 @@ df_grouped = df_grouped.sort_values(by='mean_runtime', ascending=True)
 print(df_grouped)
 
 #save to csv 
-df_grouped.to_csv('block_size_analysis.csv', index=False)
+df_grouped.to_csv('block_size_analysis.csv', index=True)
 # Save the results to a CSV file
 df = pd.DataFrame(results)
-df.to_csv('results.csv', index=False)
+df.to_csv('results.csv', index=True)
 # save raw results to csv
 df_raw.to_csv('raw_results.csv', index=False)
 # print sorted values of mean_runtime
