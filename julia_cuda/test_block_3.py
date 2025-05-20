@@ -17,7 +17,7 @@ print(block_sizes)
 results = []        # For summarized results (mean, std, max per setting)
 raw_results = []    # For raw results from every run/repetition
 reps = 5
-    
+nvprof = ""    
 print("Problem size | Processors | Mean runtime (s) | Speedup | Efficiency") # This header seems for a different table format
 print(len(block_sizes))
 print("-" * 70)
@@ -27,7 +27,8 @@ for block_size_tuple in tqdm(block_sizes):
     for size in problem_sizes:
         cmd = f"./juliaset_gpu -r {size} {size} -n {reps} -b {configured_block_x} {configured_block_y}"
         output = subprocess.check_output(cmd, shell=True, text=True)
-
+        outputNvprof = subprocess.check_output("nvprof "+cmd,shell=True, text=True)
+        nvprof += outputNvprof + "\n"
         # Parse output lines
         # Example line format: rep;res_x;res_y;scale;global_block_x;global_block_y;runtime_str
         parsed_lines = [line.strip().split(';') for line in output.strip().split('\n') if line.strip()]
@@ -80,7 +81,9 @@ for block_size_tuple in tqdm(block_sizes):
 # Convert raw results to DataFrame (all columns will have appropriate numeric types)
 df_raw = pd.DataFrame(raw_results)
 print("Raw DataFrame sample:\n", df_raw.head())
-
+#write nvprof output to file
+with open("nvprof_output_3_2.txt", "w") as f:
+    f.write(nvprof)
 # Analysis grouped by actual global block sizes used by GPU
 # (assuming global_block_x/y are now integers in df_raw)
 df_block_analysis = df_raw.groupby(['global_block_x', 'global_block_y']).agg(

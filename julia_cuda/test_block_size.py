@@ -16,7 +16,6 @@ block_sizes.append((6,16))
 print(block_sizes)
 results = []
 raw_results = []
-nvprof = ""
 
 reps = 3
     
@@ -27,8 +26,7 @@ for block_size in tqdm(block_sizes):
     for size in problem_sizes:
         cmd = f"./juliaset_gpu -r {size} {size} -n {reps} -b {block_size[0]} {block_size[1]}"
         output = subprocess.check_output(cmd, shell=True, text=True)
-        outputNvprof = subprocess.check_output("nvprof "+cmd,shell=True, text=True)
-        nvprof += outputNvprof + "\n"
+        
 
         values = [line.strip().split(';') for line in output.strip().split('\n')]
         runtimes = []
@@ -59,9 +57,7 @@ for block_size in tqdm(block_sizes):
         })
 
 
-#write nvprof output to file
-with open("nvprof_output_3_2.txt", "w") as f:
-    f.write(nvprof)
+
 
 # Convert results to DataFrame
 df_raw = pd.DataFrame(raw_results)
